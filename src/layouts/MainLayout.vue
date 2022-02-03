@@ -29,6 +29,7 @@
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
+          active=false
         />
       </q-list>
     </q-drawer>
@@ -47,25 +48,25 @@ const linksList = [
     title: "Home",
     caption: "quasar.dev",
     icon: "home",
-    link: "https://quasar.dev",
+    link: "/home",
   },
   {
     title: "Students",
     caption: "github.com/quasarframework",
     icon: "school",
-    link: "https://github.com/quasarframework",
+    link: "/students",
   },
   {
     title: "Income",
     caption: "chat.quasar.dev",
     icon: "chat",
-    link: "https://chat.quasar.dev",
+    link: "/income",
   },
   {
     title: "Expenses",
     caption: "forum.quasar.dev",
     icon: "record_voice_over",
-    link: "https://forum.quasar.dev",
+    link: "/expenses",
   }
 ];
 

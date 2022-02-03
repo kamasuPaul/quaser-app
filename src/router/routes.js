@@ -2,7 +2,14 @@ const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/Index.vue") }],
+    redirect: "/home",
+    children: [
+      { path: "home", component: () => import("pages/Home.vue") },
+      { path: "students", component: () => import("pages/Students.vue") },
+      { path: "income", component: () => import("pages/Income.vue") },
+      { path: "expenses", component: () => import("pages/Expenses.vue") },
+
+    ],
   },
 
   // Always leave this as last one,
