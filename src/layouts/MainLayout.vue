@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -11,16 +11,20 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title> Accounting software </q-toolbar-title>
+        <div class="q-pl-md q-gutter-sm row no-wrap items-center">
+          <q-btn round flat>
+            <q-avatar size="26px">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
+            <q-tooltip>Account</q-tooltip>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -40,47 +44,29 @@ import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: "Docs",
+    title: "Home",
     caption: "quasar.dev",
-    icon: "school",
+    icon: "home",
     link: "https://quasar.dev",
   },
   {
-    title: "Github",
+    title: "Students",
     caption: "github.com/quasarframework",
-    icon: "code",
+    icon: "school",
     link: "https://github.com/quasarframework",
   },
   {
-    title: "Discord Chat Channel",
+    title: "Income",
     caption: "chat.quasar.dev",
     icon: "chat",
     link: "https://chat.quasar.dev",
   },
   {
-    title: "Forum",
+    title: "Expenses",
     caption: "forum.quasar.dev",
     icon: "record_voice_over",
     link: "https://forum.quasar.dev",
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev",
-  },
+  }
 ];
 
 import { defineComponent, ref } from "vue";
