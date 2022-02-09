@@ -1,7 +1,25 @@
 <template>
   <q-page padding>
     <div class="row q-py-md justify-end">
-      <div class="col-auto column q-mx-sm ">
+      <div v-if="selected.length > 0" class="col-auto column q-mx-sm">
+        <q-btn
+          @click="dialog = true"
+          color="primary"
+          size="sm"
+          icon="edit"
+          label="Edit"
+        />
+      </div>
+      <div v-if="selected.length > 0" class="col-auto column">
+        <q-btn
+          @click="deleteStudent"
+          color="red"
+          size="sm"
+          icon="delete"
+          label="Delete"
+        />
+      </div>
+      <div class="col-auto column q-mx-sm">
         <q-btn
           @click="dialog = true"
           color="secondary"
@@ -27,7 +45,9 @@
           title="Students"
           :rows="rows"
           :columns="columns"
-          row-key="name"
+          selection="single"
+          v-model:selected="selected"
+          row-key="id"
         />
       </div>
     </div>
@@ -143,6 +163,7 @@ export default {
       dialog: ref(false),
       maximizedToggle: ref(true),
       model: ref(null),
+      selected: ref([]),
       classes: ["Baby", "Middle", "Top", "P.1", "P.2"],
       genderOptions: ["Male", "Female"],
       residencyOptions: ["Day", "Boarding"],
@@ -169,9 +190,10 @@ export default {
         gender: this.student.gender,
         residency: this.student.residency,
       };
-      this.dialog = false;
-      this.rows.push(student);
-      window.api.addStudent(student);
+      window.api.addStudent(student).then((res) => {
+        this.rows.push(student);
+        this.dialog = false;
+      });
     },
     getStudent() {
       return window.api.getStudent();
@@ -180,6 +202,15 @@ export default {
       const students = window.api.getAllStudents();
       students.then((data) => {
         this.rows = data;
+        console.log(this.rows);
+      });
+    },
+    deleteStudent() {
+      const id = this.selected[0].id;
+      window.api.deleteStudent(id).then((data) => {
+        this.rows = this.rows.filter((row) => {
+          return row.id !== id;
+        });
       });
     },
   },

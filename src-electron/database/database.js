@@ -4,7 +4,8 @@ const database = require('knex')({
     client: 'sqlite3',
     connection: {
       filename: "./db.sqlite"
-    }
+    },
+    useNullAsDefault:true
   });
 
 database.schema.hasTable('students').then((exists) =>{

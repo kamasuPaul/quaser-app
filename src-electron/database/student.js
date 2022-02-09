@@ -1,5 +1,6 @@
 //create, update, delete, get, and get all students
 import database from "./database";
+import knex from "knex";
 
 //student object
 let student = {};
@@ -9,16 +10,18 @@ let student = {};
  * @param {*} student student details
  */
 student.create = function (student) {
-  database
-    .insert({
-      name: student.name,
-      class: student.class,
-      gender: student.gender,
-      residency: student.residency,
-    })
+  let data = {
+    name: student.name,
+    class: student.class,
+    gender: student.gender,
+    residency: student.residency,
+  };
+  return database
+    .insert(data)
     .into("students")
-    .then(() => {
-      console.log("student added");
+    .then((res) => {
+      data.id = res[0];
+      return data;
     });
 };
 
@@ -31,7 +34,14 @@ student.update = function (id) {
 };
 //delete student function
 student.destroy = function (id) {
-  console.log("delete function called");
+  console.log("delete function called", id);
+  return database
+    .from("students")
+    .where("id", id)
+    .del()
+    .then((response) => {
+      return response;
+    });
 };
 //get student function
 student.get = function (id) {

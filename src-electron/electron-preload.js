@@ -16,10 +16,10 @@ contextBridge.exposeInMainWorld("api", {
   addStudent:(data)=>{
     console.log("data")
     console.log(data)
-    student.create(data)
+    return student.create(data)
   },
   updateStudent: student.update,
-  deleteStudent: student.destroy,
-  getStudent: student.get,
+  deleteStudent:(id)=> {return student.destroy(id)},
+  getStudent: (id)=>{return student.get(id)},
   getAllStudents: student.getAll,
 });
