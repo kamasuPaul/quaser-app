@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
-    <div class="row q-pa-md">
-      <div class="col column items-end">
+    <div class="row q-py-md justify-end">
+      <div class="col-auto column q-mx-sm ">
         <q-btn
           @click="dialog = true"
           color="secondary"
@@ -10,7 +10,7 @@
           label="Add student"
         />
       </div>
-      <div class="col column items-end">
+      <div class="col-auto column">
         <q-btn
           @click="getAllStudents"
           color="secondary"
