@@ -13,6 +13,9 @@ database.schema.hasTable('students').then((exists) =>{
             table.increments('id').primary();
             table.string('name', 100);
             table.string('class', 100);
+            table.enu('gender',['Male','Female'])
+            table.enu('residency',['Boarding','Day'])
+            table.timestamps()
         })
     }
 })

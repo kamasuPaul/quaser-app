@@ -13,7 +13,11 @@ import { contextBridge,ipcRenderer } from "electron";
 import student from "./database/student";
 
 contextBridge.exposeInMainWorld("api", {
-  addStudent: (student) =>student.create,//ipcRenderer.send('students/add',student),
+  addStudent:(data)=>{
+    console.log("data")
+    console.log(data)
+    student.create(data)
+  },
   updateStudent: student.update,
   deleteStudent: student.destroy,
   getStudent: student.get,

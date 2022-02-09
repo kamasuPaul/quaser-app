@@ -76,7 +76,7 @@
         <q-card-section class="q-pt-none">
           <div class="q-pa-md q-gutter-md" style="max-width: 600px">
             <q-input
-              filled
+              outlined
               v-model="student.name"
               label="Name"
               stack-label
@@ -86,7 +86,19 @@
               outlined
               v-model="student.class"
               :options="classes"
-              label="Outlined"
+              label="Class"
+            />
+            <q-select
+              outlined
+              v-model="student.gender"
+              :options="genderOptions"
+              label="Gender"
+            />
+            <q-select
+              outlined
+              v-model="student.residency"
+              :options="residencyOptions"
+              label="Residency"
             />
           </div>
           <div class="q-pa-md q-gutter-sm">
@@ -112,44 +124,17 @@ const columns = [
     sortable: true,
   },
   {
-    name: "calories",
+    name: "class",
     align: "center",
     label: "Class",
-    field: "calories",
+    field: "class",
     sortable: true,
   },
-  { name: "fat", label: "Residency", field: "fat", sortable: true },
-  { name: "carbs", label: "Carbs (g)", field: "carbs" },
-  { name: "protein", label: "Protein (g)", field: "protein" },
-  { name: "sodium", label: "Sodium (mg)", field: "sodium" },
-  {
-    name: "calcium",
-    label: "Calcium (%)",
-    field: "calcium",
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-  },
-  {
-    name: "iron",
-    label: "Iron (%)",
-    field: "iron",
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-  },
+  { name: "gender", label: "Gender", field: "gender", sortable: true },
+  { name: "residency", label: "Residency", field: "residency" },
 ];
 
-const rows = [
-  {
-    name: "Frozen Yogurt",
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: "14%",
-    iron: "1%",
-  },
-];
+const rows = [];
 export default {
   setup() {
     return {
@@ -159,6 +144,8 @@ export default {
       maximizedToggle: ref(true),
       model: ref(null),
       classes: ["Baby", "Middle", "Top", "P.1", "P.2"],
+      genderOptions: ["Male", "Female"],
+      residencyOptions: ["Day", "Boarding"],
     };
   },
   data() {
@@ -166,6 +153,8 @@ export default {
       student: {
         name: "",
         class: "",
+        gender: "",
+        residency: "",
       },
     };
   },
@@ -176,20 +165,12 @@ export default {
     addStudent() {
       const student = {
         name: this.student.name,
-        class: this.student.class
+        class: this.student.class,
+        gender: this.student.gender,
+        residency: this.student.residency,
       };
-      console.log(student);
       this.dialog = false;
-      this.rows.push({
-        name: student.name,
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: student.class,
-        iron: "1%",
-      });
+      this.rows.push(student);
       window.api.addStudent(student);
     },
     getStudent() {
@@ -197,24 +178,8 @@ export default {
     },
     getAllStudents() {
       const students = window.api.getAllStudents();
-      //loop through the students and add them to the rows array
-
-      console.log("students");
-      console.log(students);
       students.then((data) => {
-        console.log("data", data);
-        data.forEach((student) => {
-          this.rows.push({
-            name: student.name,
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            sodium: 87,
-            calcium: student.class,
-            iron: "1%",
-          });
-        });
+        this.rows = data;
       });
     },
   },

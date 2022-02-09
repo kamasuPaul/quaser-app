@@ -1,20 +1,31 @@
 //create, update, delete, get, and get all students
 import database from "./database";
 
-//create student function
+//student object
 let student = {};
+
+/**
+ * add student to the students table
+ * @param {*} student student details
+ */
 student.create = function (student) {
-  console.log("create function called");
-  console.log(student);
-  //add student to the students table
   database
-    .insert({ name: student.name, class: student.class })
+    .insert({
+      name: student.name,
+      class: student.class,
+      gender: student.gender,
+      residency: student.residency,
+    })
     .into("students")
     .then(() => {
       console.log("student added");
     });
 };
-//update student function
+
+/**
+ * update student details
+ * @param {*} id id of student to be updated
+ */
 student.update = function (id) {
   console.log("update function called");
 };
@@ -28,9 +39,12 @@ student.get = function (id) {
 };
 //get all students function
 student.getAll = function () {
-  return database.select().from("students").then((students) => {
-    return students;
-  });
+  return database
+    .select()
+    .from("students")
+    .then((students) => {
+      return students;
+    });
 };
 
 export default student;

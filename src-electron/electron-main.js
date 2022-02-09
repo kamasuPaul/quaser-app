@@ -63,6 +63,7 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.on('addStudent', (student) => {
-  student.create(student)
+ipcMain.on('students/add', (data) => {
+  console.log("ahaa")
+  student.create(data)
 })
