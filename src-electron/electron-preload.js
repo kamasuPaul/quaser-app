@@ -8,10 +8,14 @@
  * in package.json > dependencies and NOT in devDependencies
  *
  * Example (injects window.myAPI.doAThing() into renderer thread):
- *
- *   import { contextBridge } from 'electron'
- *
- *   contextBridge.exposeInMainWorld('myAPI', {
- *     doAThing: () => {}
- *   })
  */
+import { contextBridge,ipcRenderer } from "electron";
+import student from "./database/student";
+
+contextBridge.exposeInMainWorld("api", {
+  addStudent: (student) =>student.create,//ipcRenderer.send('students/add',student),
+  updateStudent: student.update,
+  deleteStudent: student.destroy,
+  getStudent: student.get,
+  getAllStudents: student.getAll,
+});

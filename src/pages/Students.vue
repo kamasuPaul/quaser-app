@@ -10,6 +10,15 @@
           label="Add student"
         />
       </div>
+      <div class="col column items-end">
+        <q-btn
+          @click="getAllStudents"
+          color="secondary"
+          size="md"
+          icon="refresh"
+          label="Refresh"
+        />
+      </div>
     </div>
     <div class="row">
       <div class="col">
@@ -145,7 +154,7 @@ export default {
   setup() {
     return {
       columns,
-      rows:ref(rows),
+      rows: ref(rows),
       dialog: ref(false),
       maximizedToggle: ref(true),
       model: ref(null),
@@ -158,12 +167,18 @@ export default {
         name: "",
         class: "",
       },
-      
     };
+  },
+  mounted() {
+    this.getAllStudents();
   },
   methods: {
     addStudent() {
-      const student = this.student;
+      const student = {
+        name: this.student.name,
+        class: this.student.class
+      };
+      console.log(student);
       this.dialog = false;
       this.rows.push({
         name: student.name,
@@ -174,6 +189,32 @@ export default {
         sodium: 87,
         calcium: student.class,
         iron: "1%",
+      });
+      window.api.addStudent(student);
+    },
+    getStudent() {
+      return window.api.getStudent();
+    },
+    getAllStudents() {
+      const students = window.api.getAllStudents();
+      //loop through the students and add them to the rows array
+
+      console.log("students");
+      console.log(students);
+      students.then((data) => {
+        console.log("data", data);
+        data.forEach((student) => {
+          this.rows.push({
+            name: student.name,
+            calories: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+            sodium: 87,
+            calcium: student.class,
+            iron: "1%",
+          });
+        });
       });
     },
   },
