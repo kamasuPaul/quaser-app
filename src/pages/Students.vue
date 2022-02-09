@@ -3,7 +3,7 @@
     <div class="row q-py-md justify-end">
       <div v-if="selected.length > 0" class="col-auto column q-mx-sm">
         <q-btn
-          @click="dialog = true"
+          @click="editStudent"
           color="primary"
           size="sm"
           icon="edit"
@@ -21,7 +21,7 @@
       </div>
       <div class="col-auto column q-mx-sm">
         <q-btn
-          @click="dialog = true"
+          @click="dialog.show = true"
           color="secondary"
           size="md"
           icon="add_circle"
@@ -52,7 +52,7 @@
       </div>
     </div>
     <q-dialog
-      v-model="dialog"
+      v-model="dialog.show"
       persistent
       :maximized="maximizedToggle"
       transition-show="slide-up"
@@ -90,7 +90,7 @@
         </q-bar>
 
         <q-card-section>
-          <div class="text-h6">Add student details</div>
+          <div class="text-h6">{{ dialog.title }}</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -123,7 +123,18 @@
           </div>
           <div class="q-pa-md q-gutter-sm">
             <q-btn color="purple" v-close-popup label="Cancel" />
-            <q-btn color="black" label="Save" @click="addStudent" />
+            <q-btn
+              color="black"
+              v-if="dialog.mode == 'add'"
+              label="Save"
+              @click="addStudent"
+            />
+            <q-btn
+              color="black"
+              v-if="dialog.mode == 'edit'"
+              label="Update"
+              @click="updateStudent"
+            />
           </div>
         </q-card-section>
       </q-card>
@@ -160,7 +171,11 @@ export default {
     return {
       columns,
       rows: ref(rows),
-      dialog: ref(false),
+      dialog: ref({
+        show: false,
+        title: "Add student details",
+        mode: "add",
+      }),
       maximizedToggle: ref(true),
       model: ref(null),
       selected: ref([]),
@@ -192,7 +207,7 @@ export default {
       };
       window.api.addStudent(student).then((res) => {
         this.rows.push(student);
-        this.dialog = false;
+        this.dialog.show = false;
       });
     },
     getStudent() {
@@ -211,6 +226,31 @@ export default {
         this.rows = this.rows.filter((row) => {
           return row.id !== id;
         });
+      });
+    },
+    editStudent() {
+      this.dialog.title = "Edit student details";
+      this.dialog.mode = "edit";
+      this.dialog.show = true;
+      this.student = this.selected[0];
+    },
+    updateStudent() {
+      const id = this.student.id;
+      const student = {
+        name: this.student.name,
+        class: this.student.class,
+        gender: this.student.gender,
+        residency: this.student.residency,
+      };
+      window.api.updateStudent(id, student).then((res) => {
+        const index = this.rows.findIndex((element, index) => {
+          if (element.id === id) {
+            return true;
+          }
+        });
+        this.rows.splice(index, 1);
+        this.rows.splice(index, 0, this.student);
+        this.dialog.show = false;
       });
     },
   },

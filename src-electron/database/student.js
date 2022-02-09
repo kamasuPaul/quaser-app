@@ -29,12 +29,22 @@ student.create = function (student) {
  * update student details
  * @param {*} id id of student to be updated
  */
-student.update = function (id) {
+student.update = function (id, data) {
   console.log("update function called");
+  console.log(data)
+  return database
+    .from("students")
+    .where("id", id)
+    .update(data)
+    .then((response) => {
+      console.log(response)
+      return response;
+    });
 };
 //delete student function
 student.destroy = function (id) {
   console.log("delete function called", id);
+
   return database
     .from("students")
     .where("id", id)

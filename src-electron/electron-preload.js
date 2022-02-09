@@ -9,17 +9,23 @@
  *
  * Example (injects window.myAPI.doAThing() into renderer thread):
  */
-import { contextBridge,ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import student from "./database/student";
 
 contextBridge.exposeInMainWorld("api", {
-  addStudent:(data)=>{
-    console.log("data")
-    console.log(data)
-    return student.create(data)
+  addStudent: (data) => {
+    console.log("data");
+    console.log(data);
+    return student.create(data);
   },
-  updateStudent: student.update,
-  deleteStudent:(id)=> {return student.destroy(id)},
-  getStudent: (id)=>{return student.get(id)},
+  updateStudent: (id, data) => {
+    return student.update(id, data);
+  },
+  deleteStudent: (id) => {
+    return student.destroy(id);
+  },
+  getStudent: (id) => {
+    return student.get(id);
+  },
   getAllStudents: student.getAll,
 });
