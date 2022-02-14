@@ -29,7 +29,6 @@
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
-          active=false
         />
       </q-list>
     </q-drawer>

@@ -21,11 +21,6 @@ export default defineComponent({
       required: true,
     },
 
-    caption: {
-      type: String,
-      default: "",
-    },
-
     link: {
       type: String,
       default: "#",
