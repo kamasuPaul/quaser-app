@@ -33,6 +33,19 @@ database.schema.hasTable('incomes').then((exists) => {
     })
   }
 })
+database.schema.hasTable('expenses').then((exists) => {
+  if(!exists) {
+    return database.schema.createTable('expenses',function(table) {
+      table.increments('id').primary();
+      table.integer('amount',100)
+      table.string('category',100)
+      table.string('date',100)
+      table.string('description',100).nullable()
+      table.string('reference_number',100).nullable()
+      table.timestamps()
+    })
+  }
+})
 // database.schema.hasTable('fees_structures').then((exists) => {
 //   if(!exists) {
 //     return database.schema.createTable('fees_structures',function(table) {
