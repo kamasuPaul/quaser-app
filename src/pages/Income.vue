@@ -257,13 +257,13 @@ export default {
       this.dialog.title = "Edit Income details";
       this.dialog.mode = "edit";
       this.dialog.show = true;
-      this.Income = this.selected[0];
+      this.income = this.selected[0];
     },
     updateIncome() {
       const id = this.income.id;
       const income = {
-        amount: this.income.name,
-        date: this.income.class,
+        amount: this.income.amount,
+        date: this.income.date,
         description: this.income.description,
         reference_number: this.income.reference_number,
       };
