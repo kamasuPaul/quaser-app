@@ -12,6 +12,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 import student from "./database/student";
 import income from "./database/income";
+import expense from "./database/expense";
 
 contextBridge.exposeInMainWorld("api", {
   addStudent: (data) => {
@@ -45,4 +46,20 @@ contextBridge.exposeInMainWorld("api", {
     return income.get(id);
   },
   getAllIncomes: income.getAll,
+  //expense functions
+  addExpense: (data) => {
+    console.log("data");
+    console.log(data);
+    return expense.create(data);
+  },
+  updateExpense: (id, data) => {
+    return expense.update(id, data);
+  },
+  deleteExpense: (id) => {
+    return expense.destroy(id);
+  },
+  getExpense: (id) => {
+    return expense.get(id);
+  },
+  getAllExpenses: expense.getAll,
 });
