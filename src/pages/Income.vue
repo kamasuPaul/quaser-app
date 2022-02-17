@@ -117,7 +117,7 @@
               stack-label
               :dense="dense"
             />
-            <q-input filled v-model="income.date" mask="date" :rules="['date']">
+            <q-input outlined v-model="income.date" mask="date" :rules="['date']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
